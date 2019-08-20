@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="PiaoMapper">
+  <resultMap type="com.example.model.Piao" id="piaomap">
+  <id property="id" column="id"/>
+  <result property="name" column="name"/>
+  <result property="user_id" column="user_id"/>
+  <result property="idcard" column="idcard"/>
+  <result property="go" column="go"/>
+  <result property="at" column="at"/>
+  <result property="time" column="time"/>
+  </resultMap>
+  
+  <select id="selectByUser_id" parameterType="Integer" resultMap="piaomap">
+  	select *
+  	from piao
+  	where user_id = #{user_id}
+  </select>
+  <insert id="insertpiao">
+  insert into piao
+  values (#{id},#{name},#{user_id},#{idcard},#{at},#{go},#{time})
+  </insert>
+  </mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BlogMapper">
+
+	<cache/>
+	
+	<resultMap id="blogResultMap" type="Blog">
+	  <id property="id" column="blog_id" />
+	  <result property="title" column="blog_title"/>
+	  
+	  <association property="author" javaType="Author" column="author_id" >
+	  	<id property="id" column="author_id" />
+		<result property="name" column="author_name" />
+		<result property="password" column="author_password" />
+		<result property="email" column="author_email" />
+	  </association>
+	  <collection property="posts" ofType="Post">
+	  	<id property="id" column="post_id" />
+		<result property="content" column="post_content" />
+		<result property="post_time" column="post_time" />
+	  </collection>
+	  
+	</resultMap>
+	
+	<select id="selectAllBlogs" resultMap="blogResultMap">
+		select  b.id as blog_id, b.title as blog_title, 
+    		a.id as author_id, a.name as author_name, 
+    		a.password as author_password, a.email as author_email,
+    		p.id as post_id, p.content as post_content,
+    		p.post_time
+    from blog b 
+    	left outer join author a on b.author_id = a.id
+    	left outer join post p on b.id = p.blog_id 
+   
+	</select>	
+	
+  <select id="selectBlogAuthor" parameterType="int" resultMap="blogResultMap" useCache="true">
+    select  b.id as blog_id, b.title as blog_title, 
+    		a.id as author_id, a.name as author_name, 
+    		a.password as author_password, a.email as author_email,
+    		p.id as post_id, p.content as post_content,
+    		p.post_time
+    from blog b 
+    	left outer join author a on b.author_id = a.id
+    	left outer join post p on b.id = p.blog_id 
+    where b.id=#{id}
+  </select>
+  
+  <insert id="insertBlog" parameterType="Blog" 
+  		useGeneratedKeys="true" keyProperty="id">
+  		insert into blog (title, author_id)
+  			values (#{title},#{author_id} )
+  </insert>
+  
+  <update id="updateBlog" parameterType="Blog" >
+  		update blog set 
+  			title = #{title}, author_id=#{author_id}
+  		where id=#{id}
+  </update>
+
+  <delete id="deleteBlog" parameterType="Blog" >
+  		delete from blog 
+  			where id=#{id}
+  </delete>  
+  
+</mapper>

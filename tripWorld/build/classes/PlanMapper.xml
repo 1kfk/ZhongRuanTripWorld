@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.PlanMapper">
+
+	<resultMap id="planResultMap" type="Plan">
+		<id property="id" column="id" />   			 <!--id主键 -->
+		<result property="place" column="place" />
+		<result property="place_price" javaType="int" column="place_price" />
+		<result property="play_time" column="play_time" />  
+		<result property="place_id" javaType="int" column="place_id" />
+		<result property="hotel"  column="hotel" />
+		<result property="hotel_price" javaType="int" column="hotel_price" />
+	</resultMap>
+
+
+	<select id="selectAllPlace" resultMap="planResultMap">
+		select * from plan 
+	</select>
+	
+	<select id="selectByProvince" resultMap="planResultMap">
+		select * 
+		from plan
+		where place_id=#{place_id}
+	</select>
+
+</mapper>

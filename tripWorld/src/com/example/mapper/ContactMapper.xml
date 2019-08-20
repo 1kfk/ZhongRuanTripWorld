@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.ContactMapper">
+
+	<resultMap id="contactResultMap" type="Contact">
+		<id property="id" column="id" />   			 <!--id主键 -->
+		<result property="name" column="name" />
+		<result property="gowhere" column="gowhere" />   <!--result非主键 -->
+		<result property="emotion" column="emotion" />
+		<result property="talking" column="talking" />
+
+		<association property="user" javaType="User">
+			<id property="id" column="author_id" />
+		</association>
+	</resultMap>
+
+
+	<insert id="insertOneContact" parameterType="Contact"
+		useGeneratedKeys="true" keyProperty="id" >
+		insert into contact (name,user_id, gowhere, emotion, talking)
+		values (#{name},#{user_id},#{gowhere}, #{emotion},#{talking} )
+	</insert>
+
+	<delete id="deleteOneContact" parameterType="Contact" >
+		delete from contact
+		where id=#{id}
+	</delete>
+
+	<update id="updateOneContact" parameterType="Contact">
+		update Contact set
+		name = #{name}, gowhere=#{gowhere},
+		emotion = #{emotion}, talking=#{talking}
+		where id=#{id}
+	</update>
+	
+	<select id="selectAllPlace"  resultMap="contactResultMap" parameterType="Contact"> 
+		select * from contact
+	</select>
+
+	<select id="selectByGowhere" resultMap="contactResultMap" parameterType="Contact">
+		select *
+		from place
+		where gowhere=#{gowhere}
+	</select>	
+	
+	
+	
+
+
+
+
+
+
+</mapper>

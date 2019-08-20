@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.example.mapper.SmallUserMapper">
+  <resultMap type="User" id="userMap">
+  	<id property="id" column="id"/>
+  	<result property="username" column="username"/>
+  	<result property="password" column="password"/>
+  	<result property="email" column="email"/>
+  </resultMap>
+  
+  <!-- 根据用户名查找用户 -->
+  <select id="selectUserByUsername" resultMap="userMap" parameterType="String">
+   select *
+   from user 
+   where username=#{username}
+  </select>
+  <!-- 插入用户 -->
+  <insert id="insertNewUser">
+  	insert into user values (#{id},#{username},#{password},#{email})
+  </insert>
+  <select id="selectalluser" resultMap="userMap">
+  select *
+  from user limit #{begin},20;
+  </select>
+  <select id="selectusernum" resultType="java.lang.Integer">
+  select count(*) from user
+  </select>
+  <delete id="deleteuser" parameterType="String">
+  delete from user where username=#{username}
+  </delete>
+  <update id="updateuser">
+  update user set
+  username=#{username},
+  password=#{password},
+  email=#{email}
+  where id=#{id}
+  </update>
+  </mapper>

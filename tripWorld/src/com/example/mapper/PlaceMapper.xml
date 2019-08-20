@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.PlaceMapper">
+
+	<resultMap id="placeResultMap" type="Place">
+		<id property="id" column="id" />   			 <!--id主键 -->
+		<result property="province" column="province" />
+		<result property="location" column="location" />   <!--result非主键 -->
+		<result property="assess" column="assess" />
+		<result property="scene" column="scene" />
+		<result property="price_low" javaType="int" column="price_low" />
+		<result property="price_high" javaType="int" column="price_high" />
+	</resultMap>
+
+
+	<select id="selectAllPlace" resultMap="placeResultMap"> 
+		select * from place
+	</select>
+	<select id="selectplacelimit" resultMap="placeResultMap">
+	select * from place limit #{begin},10;
+	</select>
+	<select id="selectplacenum" resultType="java.lang.Integer">
+	select count(*) from place
+	</select>
+	<select id="selectByProvince" resultMap="placeResultMap">
+		select * 
+		from place
+		where province=#{province}
+	</select>
+	<select id="selectProvinceLike" resultMap="placeResultMap">
+		select *
+		from place
+		where location like concat('%',#{province},'%')
+	</select>
+	
+	<delete id="deleteone">
+	delete from place where location = #{placename}
+	</delete>
+	
+	<update id="updateone">
+	update place set
+	province=#{province},
+	location =#{location},
+	assess=#{assess},
+	scene=#{scene},
+	price_low=#{price_low},
+	price_high=#{price_high}
+	where id=#{id}
+	</update>
+	
+	<update id="updatepic">
+	update place set
+	scene=#{scene}
+	where id=#{id}
+	</update>
+	<insert id="insertplace">
+	insert into place 
+	values(#{id},#{province},#{location},#{assess},#{scene},#{price_low},#{price_high});
+	</insert>
+</mapper>
